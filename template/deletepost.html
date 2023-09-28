@@ -1,0 +1,7 @@
+{% block title %}  Post  Delete{% endblock title %}
+
+<form method='post' enctype='multipart/form-data'> {% csrf_token %} 
+<strong>Are you sure? </strong>
+<button  type="submit" > <small> Delete</small></button>
+</form>
+
