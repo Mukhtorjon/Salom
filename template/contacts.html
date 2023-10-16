@@ -1,0 +1,40 @@
+
+
+
+
+<style>
+.container{
+    padding-top: 15px;
+
+    #id_name{width: 100%;}
+    #id_message{width: 100%;}
+    #id_email{width: 100%;}
+}
+
+
+</style>
+<div class "container" >  
+
+    <h2>Send me a message </h2>
+    <form action="" method="POST">
+       {%  csrf_token %}
+       {% for i in  form.hidden_fields %}
+          {{ i }}
+       {% endfor %}
+       
+       {% for field in form.visible_fileds %}
+       <div class="form-group">
+        {{ field.error }}
+        <label> {{ field.label_tag }} </label>
+        <p>{{ field }}</p>
+
+
+    </div>
+    {% endfor %}
+    <button type="reset" class="btn btn-secondary">Reset</button>
+    <button type="reset" class="btn btn-primary">Sumbit</button>
+    </form>
+
+
+
+</div>
