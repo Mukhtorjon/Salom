@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Newsapp,DetailPost,ModelUpdateView,DeletePost,CreatePost,LikeView
+from .views import Newsapp,DetailPost,ModelUpdateView,DeletePost,CreatePost,formcontact
 urlpatterns = [
     
     path('',Newsapp.as_view(),name='index'),
@@ -7,8 +7,8 @@ urlpatterns = [
     path('update/<int:pk>/',ModelUpdateView.as_view(),name='update'),
     path('delete/<int:pk>/',DeletePost.as_view(),name='delete'),
     path('createpost/',CreatePost.as_view(),name='createpost'),
-    path('like/<int:pk>/',LikeView,name='like-post'),
-   
+    path('contacts/',formcontact,name='contacts'),
+    
  
 ]
 

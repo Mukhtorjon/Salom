@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+
 {% load static %}
+{% load crispy_forms_tags %}
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -122,12 +123,21 @@
             </div>
             <div class="article-content">
               <p>
-                {{ post.body}}
+                {{ post.body|safe}}
               </p>
               <li>
                  
-                <a > {{ post.publik_time }} </a>
+                <a > {{ post.publik_time }}   </a>
+                <!-- <form action="" method="POST"> {% csrf_token %}  
+                  {% if liked %}
+                      <button type="sumbit", name="post_id", value="{{ post.id }}",
+                      class="btn btn-danger btn-sm ">Unlike</button>  </form>
+                  {% else %}
+                      <button type="sumbit", name="post_id", value="{{ post.id }}",
+                      class="btn btn-primary btn-sm ">Like</button>  </form>
+                  {% endif %} -->
               </li>
+              
               
               <blockquote class="blockquote">
                 <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
@@ -135,63 +145,90 @@
              
             </div>
           </div>
-          <div class="box-comments">
-            
-            <div class="title-box-2">
-              <h4 class="title-comments title-left">{{ comment.pk }}</h4>
+          {% if comments %}
+          <div class="row mt-5">
+            <div class="col-lg-6 offset-lg-3">
+              Comment{{ comments.count|pluralize }}
+              <span class="badge badge-dark ml-2">{{ comments.count }}</span>
             </div>
-            {% for comment in post.comments.all %}
-            <ul class="list-comments">
-              <li>
-                <div class="comment-avatar">
-                  <img src="{% static 'img/testimonial-2.jpg' %}" alt="">
+            {% for comment in comments|slice:"0:3" %}
+            <div class="col-lg-6 offset-lg-3 mt-2">
+              <div class="card p-2">
+                <div class="row">
+                  <div class="col-12">
+                    <img class="rounded-circle mr-2" src="{% static 'img\pxfuel (6).jpg' %}" width="30" alt="Avatar">
+                    <strong>{{ comment.name }}</strong> said
+                  </div>
+                  <div class="col-12">
+                    <p class="m-1 mt-3">{{ comment.content }}</p>
+                    <p class="text-right text-muted"><small>{{ comment.created }}</small></p>
+                  </div>
                 </div>
-                <div class="comment-details">
-                  <h4 class="comment-author">{{ comment.author }} </h4>
-                  <span></span>
-                  <p>
-                    {{ comment.text|linebreaks }}
-                  </p><em><small>{{ comment.created_date }}</small></em>
-                  <a href="3">Reply</a>
-                </div>
-              </li>
-            </ul>
+              </div>
+            </div>
             {% endfor %}
           </div>
+          {% endif %}
+       
+          <form method='POST'>
+            {% csrf_token %}
+            <div class="form-group">
+              <span class="ml-2"></span>{{ form.name.label_tag }}
+              <input type="text" class="form-control {% if form.name.errors %}is-invalid{% endif %}" id="id_name"
+                name="name" value="{{ form.name.value|default:'' }}">
+            </div>
+            <div class="form-group">
+              <span class="ml-2"></span>
+              {{ form.email.label_tag }}
+              <span class="text-muted"><small>(Your email address will not be published)</small></span>
+              <input type="text" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="id_email"
+                name="email" value="{{ form.email.value|default:'' }}">
+            </div>
+            <div class="form-group">
+              <span class="ml-2"></span>{{ form.content.label_tag }}
+              <textarea class="form-control {% if form.content.errors %}is-invalid{% endif %}" id="id_content"
+                name="content" rows="4">{{ form.content.value|default:'' }}</textarea>
+            </div>
+            <button class="btn btn-primary ml-2" type="submit">Reply</button>
+          </form>
+
+<!--         
           <div class="form-comments">
+            <form  method="POST" action="{% url 'blog' post.id %}" class="post-form">{% csrf_token %}
             <div class="title-box-2">
               <h3 class="title-left">
                 Leave a Reply
-              </h3>                          
-           
-            <form action="#"method="post" class="CommentForm">{% csrf_token %}
-           
-            <form class="form-mf">
+              </h3>
+            </div>
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <div class="form-group">
-                    <input type="text" name="author" class="form-control input-mf" id="inputName" placeholder="Name " required>
+                    <input type="text" name='author' class="form-control input-mf" id="author" placeholder="Name *" required>
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
                   <div class="form-group">
-                    <input type="email" name="mail" class="form-control input-mf" id="inputEmail1" placeholder="Email " required>
+                    <input type="email" name='mail' class="form-control input-mf" id="mail" placeholder="Email *" required>
                   </div>
-              </div>
                 </div>
                 <div class="col-md-12 mb-3">
                   <div class="form-group">
-                    <textarea id="textMessage" name="text" class="form-control input-mf" placeholder="Comment " name="message"
+                    <input type="url" class="form-control input-mf" id="inputUrl" placeholder="Website">
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <textarea id="text" name="text" class="form-control input-mf" placeholder="Comment *" name="message"
                       cols="45" rows="8" required></textarea>
                   </div>
                 </div>
                 <div class="col-md-12">
-                  <button type="submit" class="save btn btn-default">Send</button>
+                  <button type="submit" class="button button-a button-big button-rouded">Send Message</button>
                 </div>
               </div>
             </form>
           </div>
-        </div>
+        </div> -->
         <div class="col-md-4">
           <div class="widget-sidebar sidebar-search">
             <h5 class="sidebar-title">Search</h5>
@@ -205,9 +242,10 @@
                     </button>
                   </span>
                 </div>
-              </form>
+             
             </div>
-          </div>
+          </form>
+          </div> 
           <div class="widget-sidebar">
             <h5 class="sidebar-title">Recent Post</h5>
             <div class="sidebar-content">

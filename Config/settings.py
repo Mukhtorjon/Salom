@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g)j(bj8f2+it5%ja0h^%(%so=48a0iq56dtzr1vvvvtu6a26^v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pythonanywhere.com']
+ALLOWED_HOSTS = ['pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
@@ -42,9 +42,15 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'home',
-    'Members'
+    'Members',
+    'crispy_forms',
+    'bootstrap4',
+    
+    'embed_video',
 ]
-
+CRISPY_TEMPLATE_PACK = 'uni_form'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -111,9 +117,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -130,25 +136,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = "/var/www/example.com/static/"
 STATICFILES_DIRS =[ os.path.join(BASE_DIR, 'static')]
 
-STORAGES = {
-   
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
- }
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
