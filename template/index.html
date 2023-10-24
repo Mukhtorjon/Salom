@@ -1,7 +1,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 <html lang="en">
-
+ 
 <head>
   <meta charset="utf-8">
   <title>DevFolio Bootstrap Template</title>
@@ -44,7 +44,10 @@
   <!--/ Nav Star /-->
   <nav class="navbar navbar-b navbar-trans navbar-expand-md fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll" href="#page-top">Salom</a>
+      {% if user.is_authenticated %} 
+      <a class="navbar-brand js-scroll" href="#page-top"><img src="{{request.user.profail.photo.url}}" class="avatar"><br><small>{{ user }}</small></a>
+      {% endif %}
+
      
       <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault"
         aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +86,7 @@
           </li> 
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link js-scroll" href=" {% url 'edit_profile' %}">Edit</a>
+            <a class="nav-link js-scroll" href=" {% url 'profile' %}">Profil</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll" href=" {% url 'change_password' %}">Password</a>
@@ -116,7 +119,7 @@
       <div class="table-cell">
         <div class="container"><br>
           <!--<p class="display-6 color-d">Hello, world!</p>-->
-          <h1 class="intro-title mb-4">I am Mukhtor Saminov </h1>
+          <h1 class="intro-title mb-4"> </h1>
           <p class="intro-subtitle"><span class="text-slider-items">CEO DevFolio,Web Developer,Web Designer,Frontend
               Developer,Graphic Designer</span><strong class="text-slider"></strong></p>
           <!-- <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="#about" role="button">Learn More</a></p> -->

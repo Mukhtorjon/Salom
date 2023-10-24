@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'Members',
     'crispy_forms',
     'bootstrap4',
+    
+    'embed_video',
 ]
 CRISPY_TEMPLATE_PACK = 'uni_form'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
@@ -134,25 +136,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = "/var/www/example.com/static/"
 STATICFILES_DIRS =[ os.path.join(BASE_DIR, 'static')]
 
-STORAGES = {
-   
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
- }
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

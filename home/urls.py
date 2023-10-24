@@ -8,7 +8,7 @@ urlpatterns = [
     path('delete/<int:pk>/',DeletePost.as_view(),name='delete'),
     path('createpost/',CreatePost.as_view(),name='createpost'),
     path('contacts/',formcontact,name='contacts'),
-   
+    
  
 ]
 
