@@ -5,12 +5,7 @@ from  django.views.generic.edit import FormMixin
 from .form import ContactForm,UpdateForm,CommentForm
 from .models import Post,Category,Friendes,Comment
 from django.urls import reverse_lazy,reverse
-from django.shortcuts import redirect
-from django.http import HttpResponseRedirect
 from Members.models import Profail
-from .forms import FormContact
-from django.core.mail import send_mail,BadHeaderError
-# Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -45,23 +40,6 @@ class Newsapp(ListView):
         else:
             return HttpResponse('Error ')
          
-def formcontact(request):
-    form=FormContact()
-    if request.method =='POST':
-        form=FormContact(request.POST)
-        if form.is_valid():
-            subject=f"Message from {form.cleaned_data['name']}"
-            message=form.cleaned_data['message']
-            sender=form.cleaned_data['email']
-            recipients=['muxtorjon18@mail.ru']
-            try:
-                send_mail(subject,message,recipients,sender,fail_silently=True)
-            except BadHeaderError:
-                return HttpResponse('Invalid header found ')
-            return HttpResponse('Success...Your email has been sent ')
-                
-
-    return render(request, "contacts.html",{"form":form})
 class  DetailPost(DetailView):
     model = Post
     template_name='blog-single.html'
@@ -106,36 +84,6 @@ class  DetailPost(DetailView):
             return self.render_to_response(context=context)
 
         return self.render_to_response(context=context)
-
-# class  DetailPost(DetailView,FormMixin):
-#     model=Post
-#     form_class =CommentForm
-#     template_name='blog-single.html'
-#     def get_object(self, queryset=None):
-#         item = super().get_object(queryset)
-#         item.incrementViewCount()
-#         return item
-  
-#     def post_detail(request, pk):
-#         template_name = 'blog.html'
-#         post = get_object_or_404(Post, pk=pk)
-#         comments = post.comments.filter(active=True)
-#         new_comment = None    # Comment posted
-#         if request.method == 'POST':
-#             comment_form = CommentForm(data=request.POST)
-#             if comment_form.is_valid():
-#                 # Create Comment object but don't save to database yet
-#                 new_comment = comment_form.save(commit=False)
-#                 # Assign the current post to the comment
-#                 new_comment.post = post
-#                 # Save the comment to the database
-#                 new_comment.save()
-#         else:
-#             comment_form = CommentForm()
-#         return render(request, template_name, {'post': post,
-#                                             'comments': comments,
-#                                             'new_comment': new_comment,
-#                                             'comment_form': comment_form})   
 class ModelUpdateView(StaffRequiredMixin,UpdateView):
     model = Post
     form_class=UpdateForm
@@ -152,3 +100,4 @@ class CreatePost(StaffRequiredMixin,SuccessMessageMixin,CreateView):
     template_name='createpost.html'
     fields=('category','name','title','body','image','status')
     success_message='Your post created'
+# 5228600523186114
